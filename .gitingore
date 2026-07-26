@@ -1,0 +1,48 @@
+# ====================================================================
+# Master Thesis: Atomistic Simulations & ML Analysis Suite
+# Author: Lorenzo Atanasio (Lorenzo-Atanasio-2000-hub)
+# ====================================================================
+
+# --- Block Heavy Simulation Outputs & Trajectories ---
+*.xyz
+*.log
+*.out
+*.err
+*.rst
+*.lammpstrj
+*.history
+*.restart
+*chkpnt
+
+# --- Block Binary Matrices & Heavy Archives ---
+*.npy
+*.npz
+*.tar.gz
+*.tgz
+*.zip
+*.rar
+*.7z
+
+# --- Python System Files & IDE Cache ---
+__pycache__/
+.DS_Store
+Thumbs.db
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# --- Block Locally Generated Plot Files ---
+*.png
+*.pdf
+*.svg
+*.jpg
+*.jpeg
+
+# ====================================================================
+# EXCEPTIONS: Allow tracking of anonymized testing files inside example_data
+# ====================================================================
+!example_data/
+!example_data/**
