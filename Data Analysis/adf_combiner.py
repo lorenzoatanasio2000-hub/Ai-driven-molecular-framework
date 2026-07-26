@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """
-combine_adf_zoom.py
-
-Combina più file ADF (angle, occurrence) in un unico grafico PNG.
-L'asse X è limitato a 75° - 150°.
+Combines different ADF files (angle, occurrence) in one PNG file. 
+X axis is limited to 75° - 150°.
 """
 
 import argparse
@@ -12,7 +10,6 @@ import matplotlib.pyplot as plt
 import os
 
 def load_adf(file):
-    """Carica ADF da file separato da ';', ritorna angolo e occurrence."""
     try:
         df = pd.read_csv(file, sep=';', comment='#', header=None)
         if df.shape[1] < 2:
@@ -40,36 +37,36 @@ def main():
         if angle is None or occurrence is None:
             continue
 
-        # Applica smoothing se richiesto
+        # smoothing if needed
         if args.smooth > 1:
             occurrence = pd.Series(occurrence).rolling(window=args.smooth, center=True, min_periods=1).mean().values
 
-        # Colore opzionale
+        # optional color
         color = None
         if args.colors and i < len(args.colors):
             color = args.colors[i]
 
-        # Etichetta dal nome file
+        # file name
         label = os.path.basename(file).split("_")[-1].replace(".csv","")
 
         plt.plot(angle, occurrence, label=label, color=color)
         plt.fill_between(angle, 0, occurrence, color=color, alpha=0.3)
 
-    # Limita asse X
+    # X axis limit
     plt.xlim(75, 150)
 
-    # --- Rimozione testo asse Y ma mantenimento griglia ---
-    plt.ylabel("")                     # nessuna label
-    plt.tick_params(axis='y',          # tick senza numeri
+   
+    plt.ylabel("")                     
+    plt.tick_params(axis='y',          
                     which='both',
                     labelleft=False,
-                    left=True,         # tick ON (ma invisibili)
+                    left=True,        
                     length=0)     
 
-    # Mantiene la griglia, che usa i tick invisibili
+    
     plt.grid(True, linestyle='--', alpha=0.6)
 
-    # Asse X normale
+    
     plt.xlabel("Angolo (°)", fontsize=14)
     plt.tick_params(axis='x', which='major', labelsize=12)
 
