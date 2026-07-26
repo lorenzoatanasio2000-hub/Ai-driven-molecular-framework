@@ -6,7 +6,7 @@
 import sys
 
 if len(sys.argv) < 2:
-    print("I'm using: python CP2K_density_calculator.py file.out")
+    print("Usage: python CP2K_density_calculator.py file.out")
     sys.exit(1)
 
 outfile = sys.argv[1]
