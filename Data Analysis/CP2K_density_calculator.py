@@ -6,7 +6,7 @@
 import sys
 
 if len(sys.argv) < 2:
-    print("Uso: python densita.py file.out")
+    print("I'm using: python CP2K_density_calculator.py file.out")
     sys.exit(1)
 
 outfile = sys.argv[1]
@@ -36,7 +36,7 @@ Na = 6.02214076e23
 # Conversion: 1 Å³ = 1e-24 cm³
 fattore_vol = 1.0e-24
 
-# ---- last volume finding ----
+# last volume finding 
 ultimo_volume = None
 
 with open(outfile) as f:
@@ -48,12 +48,12 @@ with open(outfile) as f:
                 continue
 
 if ultimo_volume is None:
-    print("Errore: nessun volume trovato nel file!")
+    print("Error: No volume found!")
     sys.exit(1)
 
 print(f"Ultimo volume trovato (Å^3): {ultimo_volume:.6f}")
 
-# ---- Calcolo densità ----
+#  Density Calculation 
 # total_mass (g/mol) / Na -> cell mass (g)
 # volume (Å³) -> volume in cm³
 massa_cella = massa_tot / Na  # grams
@@ -61,5 +61,5 @@ volume_cm3 = ultimo_volume * fattore_vol
 
 densita = massa_cella / volume_cm3  # g/cm³
 
-print(f"Densità calcolata: {densita:.6f} g/cm^3")
+print(f"Calculated Density: {densita:.6f} g/cm^3")
 
