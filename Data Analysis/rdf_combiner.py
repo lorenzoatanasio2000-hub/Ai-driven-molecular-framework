@@ -1,16 +1,10 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 """
-combine_rdf.py
-
-Combina più file RDF (r, g(r)) in un unico grafico PNG.
-Funziona con file separati da ';' come quelli generati da TraVis:
-Distance / pm ; g(r) ; Integral
-
-Le curve saranno etichettate automaticamente con la parte finale del nome file
-che indica il tempo, ad esempio 'rdf_Li_Li_2ns.csv' -> '2ns'.
-
-Uso:
-    python3 combine_rdf.py rdf_Li_Li_2ns.csv rdf_Li_Li_5ns.csv --output combined_rdf.png
+Combines multiple RDF (Radial Distribution Function) files (r, g(r)) from TraVis into one plot.
+Automatically converts distances from picometers (pm) to Ångström (Å).
+Author: Lorenzo-Atanasio-2000-hub
 """
 
 import argparse
@@ -19,64 +13,71 @@ import matplotlib.pyplot as plt
 import os
 
 def load_rdf(file):
-    """Carica RDF da file separato da ';', ritorna r in Å e g(r)."""
+    """Loads RDF data from a semicolon-separated file and converts pm to Å."""
     try:
         df = pd.read_csv(file, sep=';', comment='#', header=None)
         if df.shape[1] < 2:
-            raise ValueError(f"{file} non ha almeno due colonne")
-        r = df.iloc[:,0].values / 100.0  # Converti pm -> Å
-        g = df.iloc[:,1].values
+            raise ValueError(f"{file} does not contain at least two columns.")
+        
+        r = df.iloc[:, 0].values / 100.0  # Convert pm -> Å
+        g = df.iloc[:, 1].values
         return r, g
     except Exception as e:
-        print(f"Errore caricamento {file}: {e}")
+        print(f"Error loading {file}: {e}")
         return None, None
 
 def main():
-    parser = argparse.ArgumentParser(description="Combina più RDF in un unico grafico")
-    parser.add_argument("files", nargs="+", help="File RDF (r, g(r))")
-    parser.add_argument("--output", default="combined_rdf.png", help="Nome file PNG di output")
-    parser.add_argument("--colors", nargs="+", help="Colori per ogni curva (opzionale)")
-    parser.add_argument("--show", action="store_true", help="Mostra il grafico a video")
-    parser.add_argument("--smooth", type=int, default=1, help="Media mobile (opzionale)")
+    parser = argparse.ArgumentParser(description="Combine multiple RDF files into a single plot.")
+    parser.add_argument("files", nargs="+", help="RDF data files (r, g(r))")
+    parser.add_argument("--output", default="combined_rdf.png", help="Output PNG filename")
+    parser.add_argument("--colors", nargs="+", help="Custom colors for each curve (optional)")
+    parser.add_argument("--show", action="store_true", help="Display the plot interactively")
+    parser.add_argument("--smooth", type=int, default=1, help="Rolling average window size for smoothing (optional)")
     args = parser.parse_args()
 
-    plt.figure(figsize=(8,6))
+    fig, ax = plt.subplots(figsize=(8, 6))
 
     for i, file in enumerate(args.files):
         r, g = load_rdf(file)
         if r is None or g is None:
             continue
 
-        # Applica smoothing se richiesto
+        # Apply smoothing if requested
         if args.smooth > 1:
             g = pd.Series(g).rolling(window=args.smooth, center=True, min_periods=1).mean().values
 
-        # Colore opzionale
+        # Safe color mapping 
         color = None
-        if args.colors and i < len(args.colors):
-            color = args.colors[i]
+        if args.colors:
+            color = args.colors[i % len(args.colors)]
 
-        # Estrai etichetta dal nome file: ultima parte prima di .csv
-        label = os.path.basename(file).split("_")[-1].replace(".csv","")
+        # label extraction (removes extension safely, extracts text after last underscore)
+        filename_no_ext = os.path.splitext(os.path.basename(file))[0]
+        label = filename_no_ext.split("_")[-1] if "_" in filename_no_ext else filename_no_ext
 
-        # Traccia la curva
-        plt.plot(r, g, label=label, color=color)
+        # Plot the curve
+        ax.plot(r, g, label=label, color=color, linewidth=1.5)
 
-    # Formattazione grafico
-    plt.xlabel("r (Å)", fontsize=14)
-    plt.ylabel("g(r)", fontsize=14)
-    plt.tick_params(axis='both', which='major', labelsize=12)
-    plt.grid(True, linestyle='--', alpha=0.6)
-    plt.legend(fontsize=12, loc="upper right")
+    # Plot formatting 
+    ax.set_xlabel("r (Å)", fontsize=14)
+    ax.set_ylabel("g(r)", fontsize=14)
+    ax.tick_params(axis='both', which='major', labelsize=12)
+    ax.grid(True, linestyle='--', alpha=0.5)
+    
+    # remove top and right frames
+    for spine in ["top", "right"]:
+        ax.spines[spine].set_visible(False)
+        
+    ax.legend(fontsize=12, loc="upper right", frameon=False)
+    
     plt.tight_layout()
     plt.savefig(args.output, dpi=300)
-    print(f"✅ Grafico salvato in: {args.output}")
+    print(f" Plot successfully saved to: {args.output}")
 
     if args.show:
         plt.show()
     else:
-        plt.close()
+        plt.close(fig)
 
 if __name__ == "__main__":
     main()
-
