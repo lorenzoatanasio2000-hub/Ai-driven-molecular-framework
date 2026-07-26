@@ -84,7 +84,7 @@ def process_structure_vectorized(structure_path, central_atom, neighbor_atoms, c
                 # Pre-calculate neighbor indices matrices
                 neigh_idxs = {sym: np.where(atomic_symbols == sym) for sym in neighbor_atoms}
 
-                # Vectorized processing per frame to drastically drop Python loop overhead
+                # Vectorized processing per frame 
                 for frame in coords:
                     for c in c_idxs:
                         rc = frame[c]
@@ -176,7 +176,7 @@ def main():
         plot_executed = True
 
     if not plot_executed:
-        print("❌ Error: No bond angles could be extracted under current parameters.")
+        print(" Error: No bond angles could be extracted under current parameters.")
         sys.exit(1)
 
     ax.set_xlabel("Angle (°)", fontsize=14)
@@ -184,7 +184,7 @@ def main():
     ax.tick_params(axis='both', which='major', labelsize=12)
     ax.set_xlim(0, 180)
     
-    # Clean modern framing setup matching your other tool outputs
+    # Clean framing setup 
     for spine in ["top", "right"]:
         ax.spines[spine].set_visible(False)
         
@@ -195,7 +195,7 @@ def main():
     plt.tight_layout()
     plt.savefig(output_file, dpi=300)
     plt.close(fig)
-    print(f"✅ Combined angle distribution plot successfully saved to: {output_file}")
+    print(f" Combined angle distribution plot successfully saved to: {output_file}")
 
 if __name__ == "__main__":
     main()
