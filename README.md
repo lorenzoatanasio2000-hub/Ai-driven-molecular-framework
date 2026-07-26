@@ -4,7 +4,7 @@
 
 ---
 
-## 📌 Overview
+## Overview
 This repository contains a high-performance Python analysis suite designed to parse, evaluate, and visualize dataset structures and training logs from ab initio and classical atomistic molecular dynamics (MD) simulations. The workflow is specifically optimized for deep learning interatomic potentials frameworks like **DeepMD-kit**, as well as standard atomistic engines such as **CP2K**, **LAMMPS**, and **TraVis**.
 
 The codebase is engineered with strict production standards, prioritizing memory efficiency, complete vectorization via NumPy, and advanced scientific plotting (Matplotlib, Seaborn, Scipy) to handle extensive simulation trajectories and high-throughput training files.
@@ -46,7 +46,7 @@ master-thesis/
 
 ---
 
-## 🛠️ Detailed Script Catalog & Capabilities
+##  Detailed Script Catalog & Capabilities
 
 ### 1. Neural Network Potential Evaluation (DeepMD-kit)
 *   **`plot_learning_global.py`**: Monitors global model loss convergence by tracking validation trends against learning rate decay curves using a clean dual-axes layout.
@@ -66,7 +66,7 @@ master-thesis/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 Ensure your local Python instance is equipped with standard scientific libraries:
@@ -96,7 +96,7 @@ All standalone utilities are wrapped in command-line argument interfaces (CLI) f
 
 ---
 
-## 🔒 Research Integrity & Confidentiality Notice
+##  Research Integrity & Confidentiality Notice
 To respect academic intellectual property rights, non-disclosure agreements, and unpublished experimental models belonging to the university research laboratory, **no raw production trajectory files or proprietary coordinates are tracked within this public registry**. 
 
 The code is packaged exclusively with randomized, downscaled simulation placeholders inside the `example_data/` repository block for verification purposes. Large native outputs are filtered locally using strict operational criteria outlined in the `.gitignore` asset file.
