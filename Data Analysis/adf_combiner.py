@@ -13,12 +13,12 @@ def load_adf(file):
     try:
         df = pd.read_csv(file, sep=';', comment='#', header=None)
         if df.shape[1] < 2:
-            raise ValueError(f"{file} non ha almeno due colonne")
+            raise ValueError(f"{file} doesn't have at least two columns")
         angle = df.iloc[:,0].values
         occurrence = df.iloc[:,1].values
         return angle, occurrence
     except Exception as e:
-        print(f"Errore caricamento {file}: {e}")
+        print(f"Error loading {file}: {e}")
         return None, None
 
 def main():
@@ -67,13 +67,13 @@ def main():
     plt.grid(True, linestyle='--', alpha=0.6)
 
     
-    plt.xlabel("Angolo (°)", fontsize=14)
+    plt.xlabel("Angle (°)", fontsize=14)
     plt.tick_params(axis='x', which='major', labelsize=12)
 
     plt.legend(fontsize=12, loc="upper right")
     plt.tight_layout()
     plt.savefig(args.output, dpi=300)
-    print(f"✅ Grafico salvato in: {args.output}")
+    print(f"Plot saved in: {args.output}")
 
     if args.show:
         plt.show()
