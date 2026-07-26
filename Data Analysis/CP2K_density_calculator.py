@@ -51,7 +51,7 @@ if ultimo_volume is None:
     print("Error: No volume found!")
     sys.exit(1)
 
-print(f"Ultimo volume trovato (Å^3): {ultimo_volume:.6f}")
+print(f"Last volume found (Å^3): {ultimo_volume:.6f}")
 
 #  Density Calculation 
 # total_mass (g/mol) / Na -> cell mass (g)
