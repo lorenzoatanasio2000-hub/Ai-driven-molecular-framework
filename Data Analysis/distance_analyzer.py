@@ -6,6 +6,7 @@ Minimum Interatomic Distance Distribution Analyzer for DeepMD datasets.
 Extracts the shortest bond distances between a reference atom (e.g., Li) and a target list (e.g., O).
 Note: Assumes unwrapped coordinates or large cells (does not explicitly apply PBC box wraps).
 Author: Lorenzo-Atanasio-2000-hub
+Usage: python distance_analyzer.py --dataset ./dataset --ref Li --targets O S P
 """
 
 import os
