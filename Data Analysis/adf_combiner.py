@@ -14,7 +14,7 @@ import os
 
 def load_adf(file):
     try:
-        # Handles semicolon-separated ADF output files safely
+       
         df = pd.read_csv(file, sep=';', comment='#', header=None)
         if df.shape[1] < 2:
             raise ValueError(f"{file} does not contain at least two columns.")
@@ -41,7 +41,7 @@ def main():
         if angle is None or occurrence is None:
             continue
 
-        # Apply rolling average smoothing if requested
+        # Apply average smoothing if requested
         if args.smooth > 1:
             occurrence = pd.Series(occurrence).rolling(window=args.smooth, center=True, min_periods=1).mean().values
 
@@ -69,7 +69,7 @@ def main():
     ax.set_ylabel("")
     ax.tick_params(axis='y', which='both', left=False, labelleft=False)
     
-    # Removes the top, right, and left frame boxes for a modern minimalistic look
+    # Removes the top, right, and left frame boxes 
     for spine in ["top", "right", "left"]:
         ax.spines[spine].set_visible(False)
 
