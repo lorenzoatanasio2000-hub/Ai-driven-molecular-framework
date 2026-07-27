@@ -9,7 +9,6 @@ Author: Lorenzo-Atanasio-2000-hub
 
 import argparse
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
