@@ -56,14 +56,15 @@ def process_structure_vectorized(structure_path, central_atom, neighbor_atoms, c
     for s in sets:
         set_path = os.path.join(structure_path, s)
         npy_files = [f for f in os.listdir(set_path) if f.endswith(".npy") and 'coord' in f.lower()]
-        
+
         for npy_file in npy_files:
             try:
                 coords = np.load(os.path.join(set_path, npy_file))
-                if coords.ndim != 2 or coords.shape % 3 != 0:
+                # coords from DeepMD raw/npy sets is (n_frames, n_atoms*3)
+                if coords.ndim != 2 or coords.shape[1] % 3 != 0:
                     continue
 
-                n_atoms_coord = coords.shape // 3
+                n_atoms_coord = coords.shape[1] // 3
                 n_types = len(types)
 
                 if n_atoms_coord != n_types:
@@ -74,27 +75,27 @@ def process_structure_vectorized(structure_path, central_atom, neighbor_atoms, c
                 else:
                     types_expanded = types
 
-                coords = coords.reshape(coords.shape, n_atoms_coord, 3)
+                coords = coords.reshape(coords.shape[0], n_atoms_coord, 3)
                 atomic_symbols = type_map[types_expanded]
 
-                c_idxs = np.where(atomic_symbols == central_atom)
+                c_idxs = np.where(atomic_symbols == central_atom)[0]
                 if len(c_idxs) == 0:
                     continue
 
-                # Pre-calculate neighbor indices matrices
-                neigh_idxs = {sym: np.where(atomic_symbols == sym) for sym in neighbor_atoms}
+                # Pre-calculate neighbor indices arrays
+                neigh_idxs = {sym: np.where(atomic_symbols == sym)[0] for sym in neighbor_atoms}
 
-                # Vectorized processing per frame 
+                # Vectorized processing per frame
                 for frame in coords:
                     for c in c_idxs:
                         rc = frame[c]
-                        
+
                         # Gather neighbors within cutoff sphere
                         valid_neighbors = {}
                         for sym in neighbor_atoms:
                             idxs = neigh_idxs[sym]
-                            if len(idxs) == 0:
-                                valid_neighbors[sym] = []
+                            if idxs.size == 0:
+                                valid_neighbors[sym] = np.empty((0, 3))
                                 continue
                             dvecs = frame[idxs] - rc
                             dists = np.linalg.norm(dvecs, axis=1)
@@ -159,10 +160,10 @@ def main():
     # --- Plotting Architecture ---
     bins = np.linspace(0, 180, 181)
     fig, ax = plt.subplots(figsize=(10, 6))
-    
+
     # Adaptive distinct color palette map
     cmap = plt.cm.get_cmap("tab10")
-    
+
     plot_executed = False
     for i, (atype, angles) in enumerate(angles_total.items()):
         if not angles:
@@ -183,11 +184,11 @@ def main():
     ax.set_ylabel("Probability Density", fontsize=14)
     ax.tick_params(axis='both', which='major', labelsize=12)
     ax.set_xlim(0, 180)
-    
-    # Clean framing setup 
+
+    # Clean framing setup
     for spine in ["top", "right"]:
         ax.spines[spine].set_visible(False)
-        
+
     ax.grid(True, linestyle='--', alpha=0.5)
     ax.legend(loc="upper right", frameon=False, fontsize=12)
 
