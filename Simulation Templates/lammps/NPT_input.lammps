@@ -16,15 +16,15 @@ atom_style      atomic
 neigh_modify    delay 10 every 1
 
 #read_restart   restart.lmp
-read_data       gc-Li6P2S7_5O0_5.lmp
+read_data       structure.lmp
 
 #mass    1      6.941
 #mass    2      30.973762
 #mass    3      32.065
 
-pair_style deepmd /leonardo/home/userexternal/latanasi/LAMMPS/cpr_hbrd_e3_LPSO_NPT/gc-Li6P2S7_5O0_5/cpr_hbrd_e3_LPSO.pb 
+pair_style deepmd ml_forcefield.pb 
 
-pair_coeff * * Li P S O
+pair_coeff * *  Li P S O
 
 # TIMESTEP
 timestep        ${TIMESTEP}  #ps
