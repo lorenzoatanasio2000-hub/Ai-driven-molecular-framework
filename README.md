@@ -33,15 +33,11 @@ master-thesis/
 │   ├── rdf_combiner.py                 # Semicolon-separated TraVis RDF combiner (pm to Å conversion)
 │   └── energy_distribution.py          # Multi-system energy distribution normalized per atom (eV/atom)
 │
-├── simulation_templates/       #  VERIFIED SIMULATION INPUT TEMPLATES
-│   ├── cp2k/cp2k_cell_opt.inp
-│   ├── lammps/in.npt
-│   └── deepmd/input.json
-│
-└── example_data/               #  ANONYMIZED DUMMY SAMPLES FOR CODE VERIFICATION
-    ├── cp2k_sample.out
-    ├── lammps_sample.log
-    └── deepmd_sample_set/
+├── simulation_templates/               # SIMULATION INPUT TEMPLATES
+    ├── cp2k/cp2k_cell_opt.inp
+    ├── lammps/in.npt
+    └── deepmd/input.json
+
 ```
 
 ---
@@ -99,4 +95,4 @@ All standalone utilities are wrapped in command-line argument interfaces (CLI) f
 ##  Research Integrity & Confidentiality Notice
 To respect academic intellectual property rights, non-disclosure agreements, and unpublished experimental models belonging to the university research laboratory, **no raw production trajectory files or proprietary coordinates are tracked within this public registry**. 
 
-The code is packaged exclusively with randomized, downscaled simulation placeholders inside the `example_data/` repository block for verification purposes. Large native outputs are filtered locally using strict operational criteria outlined in the `.gitignore` asset file.
+Large native outputs are filtered locally using strict operational criteria outlined in the `.gitignore` asset file.
