@@ -1,0 +1,145 @@
+&GLOBAL
+  PRINT_LEVEL medium
+  PROJECT_NAME Li3PS3O
+  RUN_TYPE MD
+&END GLOBAL
+@SET frequency 1
+&FORCE_EVAL
+  STRESS_TENSOR ANALYTICAL
+  &PRINT
+    &STRESS_TENSOR ON
+     &EACH
+        MD ${frequency}
+      &END EACH
+    &END STRESS_TENSOR
+    &FORCES ON
+    &END FORCES
+  &END PRINT
+  METHOD  QS
+  &DFT
+   POTENTIAL_FILE_NAME /leonardo/home/userexternal/latanasi/POTENTIAL_UZH
+    PLUS_U_METHOD MULLIKEN
+    UKS .FALSE.
+    CHARGE 0
+    BASIS_SET_FILE_NAME /leonardo/home/userexternal/latanasi/BASIS_MOLOPT_UZH
+   &MGRID
+      REL_CUTOFF 60
+      NGRIDS 5
+      CUTOFF 500
+    &END MGRID
+    &QS
+      METHOD GAPW
+      EPS_DEFAULT 1.000E-10
+      EXTRAPOLATION ASPC
+      EXTRAPOLATION_ORDER 4
+      QUADRATURE   GC_LOG
+      EPSFIT       1.E-4
+      EPSISO       1.0E-12
+      EPSRHO0      1.E-8
+      LMAXN0       4
+      LMAXN1       6
+      ALPHA0_H     10
+    &END QS
+    &POISSON
+      PERIODIC XYZ
+      PSOLVER PERIODIC
+    &END
+    &SCF
+      &MIXING
+        ALPHA 0.3
+        METHOD BROYDEN_MIXING
+        NBROYDEN 8
+      &END MIXING
+      IGNORE_CONVERGENCE_FAILURE T
+      EPS_SCF 1e-07
+      MAX_SCF 500
+      SCF_GUESS RESTART
+      &OUTER_SCF
+        EPS_SCF 1e-07
+        MAX_SCF 500
+      &END OUTER_SCF
+      &OT
+        ENERGY_GAP 0.1
+        PRECONDITIONER FULL_SINGLE_INVERSE
+        MINIMIZER CG
+      &END OT
+    &END SCF
+ &XC
+&XC_FUNCTIONAL
+        &HYB_GGA_XC_WB97X_D3
+        &END HYB_GGA_XC_WB97X_D3
+      &END XC_FUNCTIONAL
+      &XC_GRID
+        XC_DERIV SPLINE2_SMOOTH
+      &END XC_GRID
+    &END XC
+  &END DFT
+&SUBSYS
+    &CELL
+       A  49.51442550955487   4.00000028000000  -4.00000008000000
+       B   3.64668694544171  35.62013794533297  -4.00000015999999
+       C  -4.01925440301665  -3.95170917172342  21.40280734780153
+     PERIODIC XYZ
+    &END CELL
+     &TOPOLOGY
+        COORD_FILE_NAME Li3PS3O.xyz
+        COORDINATE XYZ
+     &END TOPOLOGY
+    &KIND Li
+      BASIS_SET ORB TZV2P-MOLOPT-HYB-GTH-q3
+      POTENTIAL ALL
+    &END KIND
+    &KIND S
+      BASIS_SET ORB TZV2P-MOLOPT-HYB-GTH-q6
+      POTENTIAL GTH-HYB-q6
+    &END KIND
+    &KIND P
+      BASIS_SET ORB TZV2P-MOLOPT-HYB-GTH-q5
+      POTENTIAL GTH-HYB-q5
+    &END KIND
+    &KIND O
+      BASIS_SET ORB TZV2P-MOLOPT-HYB-GTH-q6
+      POTENTIAL GTH-HYB-q6
+    &END KIND
+&END SUBSYS
+&END FORCE_EVAL
+&MOTION
+  &FREE_ENERGY
+   &METADYN
+     USE_PLUMED .TRUE.
+     PLUMED_INPUT_FILE ./plumed.dat
+   &END METADYN
+  &END FREE_ENERGY
+  &MD
+    STEPS 5000
+    TIMESTEP 0.25
+    TEMPERATURE 300
+    ENSEMBLE NVT
+    &THERMOSTAT
+      TYPE NOSE
+        &NOSE
+          TIMECON 12
+        &END NOSE
+    &END THERMOSTAT
+    &PRINT
+      &ENERGY
+            &EACH
+               MD ${frequency}
+            &END EACH
+         &END ENERGY
+      &END PRINT
+  &END MD
+  &PRINT
+      &CELL
+         &EACH
+            MD ${frequency}
+         &END EACH
+      &END CELL
+      &FORCES
+         &EACH
+            MD ${frequency}
+         &END EACH
+      &END FORCES
+   &END PRINT
+&END MOTION
+  
