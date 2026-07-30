@@ -1,4 +1,4 @@
-# Master Thesis: Atomistic Simulations & Machine Learning Analysis Suite
+# Ai Driven Molecular Framework: Atomistic Simulations & Machine Learning Analysis Suite
 **Author:** Lorenzo Atanasio (`Lorenzo-Atanasio-2000-hub`)  
 **Academic Context:** Master's Thesis Repository in Computational Chemistry / Materials Science
 
