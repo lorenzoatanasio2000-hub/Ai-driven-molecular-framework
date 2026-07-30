@@ -29,7 +29,7 @@ master-thesis/
 │   ├── pca_on_DeepMD_dataset.py        # Dimensionality reduction (PCA) on configuration spaces
 │   ├── lammps_density_average.py       # Computes production thermo averages discarding burn-in phases
 │   ├── traj_merger.py                  # Structure-preserving multi-frame XYZ trajectory concatenator
-│   ├── distance_analizer.py            # High-speed vectorized first coordination shell analyzer
+│   ├── distance_analyzer.py            # High-speed vectorized first coordination shell analyzer
 │   ├── rdf_combiner.py                 # Semicolon-separated TraVis RDF combiner (pm to Å conversion)
 │   └── energy_distribution.py          # Multi-system energy distribution normalized per atom (eV/atom)
 │
@@ -86,19 +86,19 @@ All standalone utilities are wrapped in command-line argument interfaces (CLI) f
 
 *   **Plot complete stacked DeepMD log metrics:**
     ```bash
-    python analysis_tools/plot_lcurbe_all_components.py path/to/lpath.log --smooth 5 --log
+    python Data_Analysis/plot_lcurve_all_components.py path/to/lpath.log --smooth 5 --log
     ```
 *   **Perform automatic bond angle distributions analysis around Phosphorus (P):**
     ```bash
-    python analysis_tools/angles_distribution.py --dataset ./dataset --center P --neighbors S O --cutoff 2.6 --sigma 1.5
+    python Data_Analysis/angles_distribution.py --dataset ./dataset --center P --neighbors S O --cutoff 2.6 --sigma 1.5
     ```
 *   **Extract minimum distance distributions for Li–O contacts:**
     ```bash
-    python analysis_tools/distance_analizer.py --dataset ./dataset --ref Li --targets O --sigma 2.0
+    python Data_Analysis/distance_analizer.py --dataset ./dataset --ref Li --targets O --sigma 2.0
     ```
 *   **Generate an atomic-normalized energy density overview map:**
     ```bash
-    python analysis_tools/energy_distribution.py --dataset ./dataset --output ./plots
+    python Data_Analysis/energy_distribution.py --dataset ./dataset --output ./plots
     ```
 
 ---
