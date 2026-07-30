@@ -33,21 +33,21 @@ master-thesis/
 │   ├── rdf_combiner.py                 # Semicolon-separated TraVis RDF combiner (pm to Å conversion)
 │   └── energy_distribution.py          # Multi-system energy distribution normalized per atom (eV/atom)
 │
-├── simulation_templates/               # SIMULATION INPUT TEMPLATES
+└── simulation_templates/               # SIMULATION INPUT TEMPLATES
     ├── cp2k/
     |   ├── METAdyn.in                  # Perform metadynamic simulations
     |   ├── NPT_MD.in                   # Perform NPT simulations
     |   ├── NVT_MD.in                   # Perform NVT simulations
     |   ├── CELL_OPT.in                 # Perform cell optimization
-    |   ├── plumed.dat                  # Metadynamic variables
+    |   └── plumed.dat                  # Metadynamic variables
     |
     ├── lammps/
     |   ├── NPT_input.lammps            # Perform NPT simulations
     |   ├── NVT_input.lammps            # Perform NVT simulations
-    |   ├── minimize_input.lammps       # Perform an Energy minimization
+    |   └── minimize_input.lammps       # Perform an Energy minimization
     |
     └── deepmd/input.json
-        ├── input.json                  # Deep-MD model training input
+        └── input.json                  # Deep-MD model training input
 
 ```
 
