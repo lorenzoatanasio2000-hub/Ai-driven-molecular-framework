@@ -34,9 +34,20 @@ master-thesis/
 │   └── energy_distribution.py          # Multi-system energy distribution normalized per atom (eV/atom)
 │
 ├── simulation_templates/               # SIMULATION INPUT TEMPLATES
-    ├── cp2k/cp2k_cell_opt.inp
-    ├── lammps/in.npt
+    ├── cp2k/
+    |   ├── METAdyn.in                  # Perform metadynamic simulations
+    |   ├── NPT_MD.in                   # Perform NPT simulations
+    |   ├── NVT_MD.in                   # Perform NVT simulations
+    |   ├── CELL_OPT.in                 # Perform cell optimization
+    |   ├── plumed.dat                  # Metadynamic variables
+    |
+    ├── lammps/
+    |   ├── NPT_input.lammps            # Perform NPT simulations
+    |   ├── NVT_input.lammps            # Perform NVT simulations
+    |   ├── minimize_input.lammps       # Perform an Energy minimization
+    |
     └── deepmd/input.json
+        ├── input.json                  # Deep-MD model training input
 
 ```
 
