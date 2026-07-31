@@ -18,6 +18,7 @@ master-thesis/
 │
 ├── .gitignore                  # Prevents tracking heavy trajectory/log binary data (*.xyz, *.npy)
 ├── README.md                   # Main documentation portal (this file)
+├── LICENSE
 │
 ├── Data_Analysis/                     # CORE ANALYSIS SCRIPT SUITE
 │   ├── adf_combiner.py                 # Merges and styles Angular Distribution Functions
