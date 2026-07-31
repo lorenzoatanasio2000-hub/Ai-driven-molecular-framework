@@ -40,9 +40,3 @@ Thumbs.db
 *.svg
 *.jpg
 *.jpeg
-
-# ====================================================================
-# EXCEPTIONS: Allow tracking of anonymized testing files inside example_data
-# ====================================================================
-!example_data/
-!example_data/**
